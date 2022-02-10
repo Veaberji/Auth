@@ -1,0 +1,75 @@
+﻿@model IEnumerable<UserRoleViewModel>
+
+<div class="card-header fs-3">
+    <h4>Registered Users</h4>
+</div>
+<div class="alert-danger" asp-validation-summary="ModelOnly"></div>
+@{
+    await Html.RenderPartialAsync("_ToolBar");
+}
+<table class="table table-primary table-bordered table-striped mb-0">
+    <tr>
+        <th class="text-center">
+            <input class="form-check-input mt-0"
+                   type="checkbox"
+                   id="select_all">
+        </th>
+        <th class="text-center">ID</th>
+        <th class="text-center">Login</th>
+        <th class="text-center">Email</th>
+        <th class="text-center">Registration Date</th>
+        <th class="text-center">Last Login Date</th>
+        <th class="text-center">Status</th>
+    </tr>
+    @if (!Model.Any())
+    {
+        <tr>
+            <td colspan="7"
+            class="text-center">
+                Nobody registered
+            </td>
+        </tr>
+    }
+    else
+    {
+        foreach (var userRole in Model)
+        {
+            <tr>
+                <td>
+                    <input class="form-check-input mt-0"
+                   type="checkbox"
+                   value="@userRole.User.Id"
+                   asp-route-id="@userRole.User.Id"
+                   name="selectUser">
+                </td>
+                <td>@userRole.User.Id</td>
+                <td>@userRole.User.UserName</td>
+                <td>@userRole.User.Email</td>
+                <td>@userRole.User.RegistrationDate.ToShortDateString()</td>
+                <td>
+                    @if (userRole.User.LastLoginDate != null)
+                    {
+                        @userRole.User.LastLoginDate.Value.ToShortDateString()
+                    }
+                    else
+                    {
+                        <span>Never</span>
+                    }
+                </td>
+                <td>
+                    @if (userRole.RoleName != null)
+                    {
+                        <span>@userRole.RoleName</span>
+                    }
+                    else
+                    {
+                        <span>Active</span>
+                    }
+                </td>
+            </tr>
+        }
+    }
+</table>
+
+<script src="~/lib/jquery/jquery.min.js"></script>
+<script src="~/js/selectAll.js"></script>

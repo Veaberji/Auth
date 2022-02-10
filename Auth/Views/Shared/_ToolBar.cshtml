@@ -1,0 +1,55 @@
+﻿<form class="btn-group">
+    <button type="submit"
+            class="btn btn-warning"
+            onclick="BlockAll()">
+        Block
+    </button>
+    <button type="submit"
+            class="btn btn-success"
+            onclick="UnblockAll()">
+        <i class="fas fa-unlock-alt"></i>
+    </button>
+    <button type="submit"
+            class="btn btn-danger"
+            onclick="DeleteAll()">
+        <i class="fas fa-trash-alt"></i>
+    </button>
+</form>
+
+<script type="text/javascript">
+    function GetChecked() {
+        var selectedUsers = new Array();
+        $("input[name='selectUser']:checked")
+            .each(function () {
+                selectedUsers.push($(this).val());
+            });
+        return (selectedUsers);
+    }
+
+    function BlockAll() {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("BlockAll", "Account")',
+            data: { selectedUsers: GetChecked() }
+        });
+        return;
+    }
+
+    function UnblockAll() {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("UnblockAll", "Account")',
+            data: { selectedUsers: GetChecked() }
+        });
+        return;
+    }
+
+    function DeleteAll() {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("DeleteAll", "Account")',
+            data: { selectedUsers: GetChecked() }
+        });
+        return;
+    }
+</script>
