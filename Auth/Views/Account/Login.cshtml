@@ -16,7 +16,7 @@
         <button type="submit" class="btn btn-primary">
             Log In
         </button>
-        <a asp-controller="Home" class="btn btn-secondary">Cancel</a>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
 @if (TempData["message"] != null)
