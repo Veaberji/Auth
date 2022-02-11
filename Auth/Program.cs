@@ -67,7 +67,7 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseMiddleware<LogoutBannedMiddleware>();
+app.UseMiddleware<LogoutMiddleware>();
 
 app.MapControllerRoute(
     name: "default",

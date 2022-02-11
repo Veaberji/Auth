@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace Auth.Middleware
 {
-    public class LogoutBannedMiddleware
+    public class LogoutMiddleware
     {
         private readonly RequestDelegate _next;
 
-        public LogoutBannedMiddleware(RequestDelegate next)
+        public LogoutMiddleware(RequestDelegate next)
         {
             _next = next;
         }
@@ -18,8 +18,10 @@ namespace Auth.Middleware
             UserManager<User> userManager)
         {
             var role = AppRoles.BannedRole;
-            var userName = context.User.Identity?.Name;
-            if (userName != null && await userManager.IsInRoleAsync(
+            var userName = context.User.Identity?.Name ?? "";
+            var userInDb = await userManager.FindByNameAsync(userName);
+            if (userInDb == null ||
+            await userManager.IsInRoleAsync(
                     await userManager.FindByNameAsync(userName), role))
             {
                 await signInManager.SignOutAsync();
